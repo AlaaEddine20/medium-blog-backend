@@ -1,32 +1,40 @@
 // MONGOOSE
-const { Schema } = require("mongoose");
-const mongoose = require("mongoose");
+const { Schema, model } = require("mongoose");
 // SCHEMA
-const articleSchema = new Schema({
-  headline: {
-    type: String,
-    required: true,
-  },
-  subHead: String,
-  content: {
-    type: String,
-    required: true,
-  },
-  category: {
-    type: {
+const articleModel = new Schema(
+  {
+    headline: {
+      type: String,
+      required: true,
+    },
+    subHead: String,
+    content: {
+      type: String,
+      required: true,
+    },
+    category: {
+      type: {
+        name: String,
+        img: String,
+      },
+      required: true,
+    },
+    author: {
       name: String,
       img: String,
     },
-    required: true,
+    cover: {
+      type: String,
+      required: true,
+    },
+    reviews: [
+      {
+        text: String,
+        user: String,
+      },
+    ],
   },
-  author: {
-    name: String,
-    img: String,
-  },
-  cover: {
-    type: String,
-    required: true,
-  },
-});
+  { timestamps: true }
+);
 
-module.exports = mongoose.model("Article", articleSchema);
+module.exports = model("Article", articleModel);
