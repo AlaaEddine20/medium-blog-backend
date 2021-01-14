@@ -21,7 +21,7 @@ router.post("/", async (req, res, next) => {
 // GET ARTICLES
 router.get("/", async (req, res, next) => {
   try {
-    const articles = await articleModel.find();
+    const articles = await articleModel.find({}).populate("author");
 
     res.send(articles);
   } catch (error) {
