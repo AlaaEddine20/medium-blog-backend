@@ -15,7 +15,7 @@ router.post("/", async (req, res, next) => {
     });
     const { _id } = await newAuthor.save();
 
-    res.send(_id, article);
+    res.send(_id);
   } catch (error) {
     console.log(error);
     next(error);
@@ -62,6 +62,22 @@ router.put("/:id", async (req, res, next) => {
     );
     if (authorToUpdate) {
       res.send(authorToUpdate);
+    }
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
+
+// DELETE AUTHOR
+router.delete("/:id", async (req, res, next) => {
+  try {
+    const authorToDelete = await AuthorSchema.findByIdAndDelete(req.params.id);
+
+    if (authorToDelete) {
+      res.send(`${req.body.name} Deleted!`);
+    } else {
+      next(`${req.params.id} Not found`);
     }
   } catch (error) {
     console.log(error);
