@@ -15,4 +15,31 @@ router.post("/", async (req, res, next) => {
     next(error);
   }
 });
+
+// GET ALL AUTHORS
+router.get("/", async (req, res, next) => {
+  try {
+    const authors = await AuthorSchema.find(req.query);
+    res.send(authors);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
+
+// GET SINGLE AUTHOR BY ID
+router.get("/:id", async (req, res, next) => {
+  try {
+    const author = await AuthorSchema.findById(req.params.id);
+
+    if (author) {
+      res.send(author);
+    } else {
+      next(new Error());
+    }
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
 module.exports = router;
