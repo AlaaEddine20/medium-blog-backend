@@ -10,7 +10,8 @@ const {
   genericErrorHandler,
 } = require("./errorHandlers");
 
-const articlesRouter = require("./services/articles");
+const articlesRouter = require("./services/articles/index");
+const authorsRouter = require("./services/authors/index");
 
 const server = express();
 
@@ -20,7 +21,10 @@ const staticFolderPath = join(__dirname, "../public");
 server.use(express.static(staticFolderPath));
 server.use(express.json());
 server.use(cors());
+
+// ROUTES
 server.use("/articles", articlesRouter);
+server.use("/authors", authorsRouter);
 
 // ERROR HANDLERS MIDDLEWARES
 server.use(notFoundHandler);

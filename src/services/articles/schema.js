@@ -19,10 +19,7 @@ const articleModel = new Schema(
       },
       required: true,
     },
-    author: {
-      name: String,
-      img: String,
-    },
+    authors: [{ type: Schema.Types.ObjectId, ref: "Author" }],
     cover: {
       type: String,
       required: true,

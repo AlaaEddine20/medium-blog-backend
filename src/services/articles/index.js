@@ -192,10 +192,11 @@ router.put("/:id/reviews/:reviewId", async (req, res, next) => {
         _id: 0,
         reviews: {
           $elemMatch: { _id: mongoose.Types.ObjectId(req.params.reviewId) },
+          // this method returns an array wich contains the array/object i'm looking for
         },
       }
     );
-    console.log(reviews);
+    // $elemMatch returne a big array wich contains the array of reviews so with [0] i'm selecting that big array
     const selectedReview = reviews[0].toObject();
 
     if (reviews && reviews.length > 0) {
