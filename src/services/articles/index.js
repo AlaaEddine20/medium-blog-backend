@@ -195,33 +195,34 @@ router.put("/:id/reviews/:reviewId", async (req, res, next) => {
         },
       }
     );
-
-    const selectedArticle = reviews[0].toObject();
+    console.log(reviews);
+    const selectedReview = reviews[0].toObject();
 
     if (reviews && reviews.length > 0) {
       // merge old article with the new one
-      const articleToReplace = { ...selectedArticle, ...req.body };
 
-      // replace the article's reviews with the modified one
+      const theReview = { ...selectedReview, ...req.body };
+
+      // replace the article's review with the modified one
       const modifiedArticle = await articleModel.findOneAndUpdate(
-        /* If i use findByIdAndUpdate i'll be retrieving the entire user.
-        here i prefer to retrieve just the specific bok of that user */
+        /* If i use findByIdAndUpdate i'll be retrieving the entire article.
+        here i prefer to retrieve just the specific review of that article */
         {
-          _id: mongoose.Types.ObjectId(req.params.id),
-          // search through the ids of the reviews and target the one that matches the params
+          _id: mongoose.Types.ObjectId(req.params.id), // search through the ids of the reviews and target the one that matches the params
           "reviews._id": mongoose.Types.ObjectId(req.params.reviewId),
         },
         {
-          // change the field of the modified property
-          $set: { "reviews.$": articleToReplace },
+          $set: { "reviews.$": theReview }, // change that field of that modified property
         },
         {
           runValidators: true,
           new: true,
         }
       );
+      res.send(modifiedArticle);
+    } else {
+      next();
     }
-    res.send(modifiedArticle);
   } catch (error) {
     console.log(error);
     next(error);
